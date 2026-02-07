@@ -1,0 +1,222 @@
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+
+using XnrgyEngineeringAutomationTools.Services;
+
+namespace XnrgyEngineeringAutomationTools.Services;
+
+public static class Logger
+{
+	public enum LogLevel
+	{
+		TRACE,
+		DEBUG,
+		INFO,
+		WARNING,
+		ERROR,
+		CRITICAL,
+		FATAL
+	}
+
+	private static string _logFilePath;
+	private static readonly Encoding _utf8WithBom = new UTF8Encoding(true); // UTF-8 avec BOM pour supporter les emojis
+
+	private static readonly object _lockObj = new();
+	
+	// Mode production = logs cryptes dans AppData (pas de console, pas de logs lisibles)
+	private static bool _isProductionMode = false;
+
+	public static void Initialize()
+	{
+		try
+		{
+			// Detecter si on est en mode production ou debug
+			// Production = pas de debugger attache ET pas lance depuis VS
+			_isProductionMode = !Debugger.IsAttached && 
+				!AppDomain.CurrentDomain.BaseDirectory.Contains("source\\repos");
+			
+			if (_isProductionMode)
+			{
+				// Mode production: utiliser SecureLogger (logs cryptes dans AppData)
+				SecureLogger.Initialize();
+				SecureLogger.Info("[+] Mode PRODUCTION - Logs cryptes actives");
+				return;
+			}
+			
+			// Mode debug: logs lisibles dans bin\Release\Logs
+			string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+			string text = Path.Combine(baseDirectory, "Logs");
+			if (!Directory.Exists(text))
+			{
+				Directory.CreateDirectory(text);
+			}
+			string text2 = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+			_logFilePath = Path.Combine(text, "VaultSDK_POC_" + text2 + ".log");
+			Log("═══════════════════════════════════════════════════════");
+			Log("  VAULT SDK POC - SESSION DEMARREE");
+			Log($"  {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+			Log("  [DEBUG MODE - Logs lisibles]");
+			Log("═══════════════════════════════════════════════════════");
+			Log("Fichier log: " + _logFilePath);
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("[-] Erreur initialisation logger: " + ex.Message);
+		}
+	}
+
+	public static void Log(string message, LogLevel level = LogLevel.INFO)
+	{
+		// Mode production: router vers SecureLogger (crypte)
+		if (_isProductionMode)
+		{
+			SecureLogger.Log(message, level.ToString());
+			return;
+		}
+		
+		if (string.IsNullOrEmpty(_logFilePath))
+		{
+			Initialize();
+		}
+		try
+		{
+			lock (_lockObj)
+			{
+				string text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+				string text2 = level.ToString().PadRight(7);
+				string text3 = "[" + text + "] [" + text2 + "] " + message;
+				File.AppendAllText(_logFilePath, text3 + Environment.NewLine, _utf8WithBom);
+				if (1 == 0)
+				{
+				}
+				ConsoleColor consoleColor = level switch
+				{
+					LogLevel.TRACE => ConsoleColor.Gray, 
+					LogLevel.DEBUG => ConsoleColor.Cyan, 
+					LogLevel.INFO => ConsoleColor.White, 
+					LogLevel.WARNING => ConsoleColor.Yellow, 
+					LogLevel.ERROR => ConsoleColor.Red, 
+					LogLevel.FATAL => ConsoleColor.DarkRed, 
+					_ => ConsoleColor.White, 
+				};
+				if (1 == 0)
+				{
+				}
+				ConsoleColor foregroundColor = consoleColor;
+				ConsoleColor foregroundColor2 = Console.ForegroundColor;
+				Console.ForegroundColor = foregroundColor;
+				Console.WriteLine(text3);
+				Console.ForegroundColor = foregroundColor2;
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("[-] Erreur écriture log: " + ex.Message);
+		}
+	}
+
+	public static void LogException(string context, Exception ex, LogLevel level = LogLevel.ERROR)
+	{
+		if (_isProductionMode)
+		{
+			SecureLogger.LogException(context, ex);
+			// Envoyer aussi a Firebase
+			try { FirebaseAuditService.Instance.LogException(ex, context); } catch { }
+			return;
+		}
+		
+		Log("[-] EXCEPTION dans " + context + ":", level);
+		Log("   Message: " + ex.Message, level);
+		Log("   Type: " + ex.GetType().Name, level);
+		if (ex.InnerException != null)
+		{
+			Log("   Inner Exception: " + ex.InnerException.Message, level);
+		}
+		Log("   StackTrace:", level);
+		string[] array = ex.StackTrace?.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+		if (array != null)
+		{
+			string[] array2 = array;
+			foreach (string text in array2)
+			{
+				Log("      " + text.Trim(), level);
+			}
+		}
+
+		// Envoyer l'erreur a Firebase (async, non-bloquant)
+		try
+		{
+			FirebaseAuditService.Instance.LogException(ex, context);
+		}
+		catch
+		{
+			// Silencieux - ne pas bloquer l'app si Firebase echoue
+		}
+	}
+
+	public static void Close()
+	{
+		if (_isProductionMode)
+		{
+			SecureLogger.Close();
+			return;
+		}
+		
+		Log("═══════════════════════════════════════════════════════");
+		Log("  SESSION TERMINEE");
+		Log("═══════════════════════════════════════════════════════");
+	}
+
+	public static void Trace(string message)
+	{
+		Log(message, LogLevel.TRACE);
+	}
+
+	public static void Debug(string message)
+	{
+		Log(message, LogLevel.DEBUG);
+	}
+
+	public static void Info(string message)
+	{
+		Log(message);
+	}
+
+	public static void Warning(string message)
+	{
+		Log(message, LogLevel.WARNING);
+	}
+
+	public static void Error(string message)
+	{
+		Log(message, LogLevel.ERROR);
+
+		// Envoyer l'erreur a Firebase (async, non-bloquant)
+		try
+		{
+			FirebaseAuditService.Instance.LogError("Error", message, null, null);
+		}
+		catch
+		{
+			// Silencieux - ne pas bloquer l'app si Firebase echoue
+		}
+	}
+
+	public static void Fatal(string message)
+	{
+		Log(message, LogLevel.FATAL);
+
+		// Envoyer l'erreur fatale a Firebase (async, non-bloquant)
+		try
+		{
+			FirebaseAuditService.Instance.LogError("Fatal", message, null, null);
+		}
+		catch
+		{
+			// Silencieux - ne pas bloquer l'app si Firebase echoue
+		}
+	}
+}
+

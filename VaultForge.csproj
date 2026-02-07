@@ -1,0 +1,629 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{B2C3D4E5-F6A7-8901-BCDE-F12345678901}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>VaultForge</RootNamespace>
+    <AssemblyName>VaultForge</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ApplicationIcon>Assets\Icons\VaultForge.ico</ApplicationIcon>
+    <LangVersion>10.0</LangVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <!-- Configuration Debug x64 -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <!-- Configuration Release x64 -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <!-- Configuration Debug AnyCPU (fallback) -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!-- Configuration Release AnyCPU (fallback) -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autodesk.Connectivity.WebServices">
+      <HintPath>$(ProgramW6432)\Autodesk\Autodesk Vault 2026 SDK\bin\x64\Autodesk.Connectivity.WebServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.Inventor.Interop">
+      <HintPath>$(ProgramW6432)\Autodesk\Inventor 2026\Bin\Autodesk.Inventor.Interop.dll</HintPath>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Autodesk.Connectivity.WebServices.WCF">
+      <HintPath>$(ProgramW6432)\Autodesk\Autodesk Vault 2026 SDK\bin\x64\Autodesk.Connectivity.WebServices.WCF.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.DataManagement.Client.Framework">
+      <HintPath>$(ProgramW6432)\Autodesk\Autodesk Vault 2026 SDK\bin\x64\Autodesk.DataManagement.Client.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.DataManagement.Client.Framework.Vault">
+      <HintPath>$(ProgramW6432)\Autodesk\Autodesk Vault 2026 SDK\bin\x64\Autodesk.DataManagement.Client.Framework.Vault.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.Connectivity.LicenseWrapper">
+      <HintPath>$(ProgramW6432)\Autodesk\Autodesk Vault 2026 SDK\bin\x64\\Autodesk.Connectivity.LicenseWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Autodesk.Connectivity.Explorer.ExtensibilityTools">
+      <HintPath>$(ProgramW6432)\Autodesk\Autodesk Vault 2026 SDK\bin\x64\Autodesk.Connectivity.Explorer.ExtensibilityTools.dll</HintPath>
+    </Reference>
+    <Reference Include="CommunityToolkit.Mvvm, Version=8.2.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
+      <HintPath>packages\CommunityToolkit.Mvvm.8.2.2\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.7.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.7.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.7.0.0\lib\net462\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.7.0.0\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>packages\NLog.5.2.8\lib\net46\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.6.0\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Text.Json.7.0.3\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <!-- iTextSharp for PDF form filling -->
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <!-- BouncyCastle - Dependance de iTextSharp pour la cryptographie PDF -->
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <!-- EPPlus for Excel file manipulation (DXF Verifier) -->
+    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <!-- UglyToad.PdfPig for PDF text extraction (DXF Verifier) -->
+    <Reference Include="UglyToad.PdfPig">
+      <HintPath>packages\PdfPig.0.1.13\lib\net471\UglyToad.PdfPig.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.Core">
+      <HintPath>packages\PdfPig.0.1.13\lib\net471\UglyToad.PdfPig.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.Tokens">
+      <HintPath>packages\PdfPig.0.1.13\lib\net471\UglyToad.PdfPig.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.Fonts">
+      <HintPath>packages\PdfPig.0.1.13\lib\net471\UglyToad.PdfPig.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="UglyToad.PdfPig.Tokenization">
+      <HintPath>packages\PdfPig.0.1.13\lib\net471\UglyToad.PdfPig.Tokenization.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <!-- Inventor API COM Reference -->
+    <Reference Include="Autodesk.Inventor.Interop">
+      <HintPath>$(ProgramW6432)\Autodesk\Inventor 2026\Bin\Public Assemblies\Autodesk.Inventor.Interop.dll</HintPath>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <!-- OpenMCDF for OLE Compound Document manipulation -->
+    <Reference Include="OpenMcdf, Version=2.3.1.0, Culture=neutral, PublicKeyToken=fdbb1629d7c00800, processorArchitecture=MSIL">
+      <HintPath>packages\OpenMcdf.2.3.1\lib\net40\OpenMcdf.dll</HintPath>
+    </Reference>
+    <!-- WebView2 for modern web content rendering -->
+    <Reference Include="Microsoft.Web.WebView2.Core">
+      <HintPath>packages\Microsoft.Web.WebView2.1.0.2478.35\lib\net45\Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Wpf">
+      <HintPath>packages\Microsoft.Web.WebView2.1.0.2478.35\lib\net45\Microsoft.Web.WebView2.Wpf.dll</HintPath>
+    </Reference>
+    <!-- Emoji.Wpf for color emoji support -->
+    <Reference Include="Emoji.Wpf">
+      <HintPath>packages\Emoji.Wpf.0.3.4\lib\net40\Emoji.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Typography.OpenFont">
+      <HintPath>packages\Emoji.Wpf.0.3.4\lib\net40\Typography.OpenFont.dll</HintPath>
+    </Reference>
+    <Reference Include="Typography.GlyphLayout">
+      <HintPath>packages\Emoji.Wpf.0.3.4\lib\net40\Typography.GlyphLayout.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== SHARED VIEWS ========== -->
+    <Page Include="Views\SplashScreenWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FirebaseAlertWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UpdateDownloadWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shared\Views\LoginWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shared\Views\ModuleSelectionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shared\Views\PreviewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shared\Views\XnrgyMessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== MODULE: UPLOAD MODULE ========== -->
+    <Page Include="Modules\UploadModule\Views\UploadModuleWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== MODULE: CREATE MODULE ========== -->
+    <Page Include="Modules\CreateModule\Views\CreateModuleWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\CreateModule\Views\CreateModuleSettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== MODULE: UPLOAD TEMPLATE ========== -->
+    <Page Include="Modules\UploadTemplate\Views\UploadTemplateWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== MODULE: ACP ========== -->
+    <Page Include="Modules\ACP\Views\ACPWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== MODULE: SMART TOOLS ========== -->
+    <Page Include="Modules\SmartTools\Views\SmartToolsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\HtmlPopupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\IPropertiesWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\SmartProgressWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\ConstraintReportWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\CustomPropertyBatchWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\ProgressWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\ExportOptionsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\FolderBrowserWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\SmartToolsInfoWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\SmartTools\Views\SheetSelectorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== MODULE: UPDATE WORKSPACE ========== -->
+    <Page Include="Modules\UpdateWorkspace\Views\UpdateWorkspaceWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== MODULE: DXF VERIFIER ========== -->
+    <Page Include="Modules\DXFVerifier\Views\DXFVerifierWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\DXFVerifier\Views\DXFVerifierInfoWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\DXFVerifier\Views\ProjectSelectorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== MODULE: OPEN VAULT PROJECT ========== -->
+    <Page Include="Modules\OpenVaultProject\Views\OpenVaultProjectWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== MODULE: CONFIG UNITE ========== -->
+    <Page Include="Modules\ConfigUnite\Views\ConfigUniteWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\ConfigUnite\Controls\UnitVisualizer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== STYLES ========== -->
+    <Page Include="Styles\XnrgyStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- ========== CODE-BEHIND: MAIN ========== -->
+    <!-- AppInfo.cs - Source UNIQUE de verite pour Version, Date, Auteur -->
+    <Compile Include="AppInfo.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <!-- ========== CODE-BEHIND: SHARED VIEWS ========== -->
+    <Compile Include="Views\SplashScreenWindow.xaml.cs">
+      <DependentUpon>SplashScreenWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\FirebaseAlertWindow.xaml.cs">
+      <DependentUpon>FirebaseAlertWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\UpdateDownloadWindow.xaml.cs">
+      <DependentUpon>UpdateDownloadWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Shared\Views\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Shared\Views\ModuleSelectionWindow.xaml.cs">
+      <DependentUpon>ModuleSelectionWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Shared\Views\PreviewWindow.xaml.cs">
+      <DependentUpon>PreviewWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Shared\Views\XnrgyMessageBox.xaml.cs">
+      <DependentUpon>XnrgyMessageBox.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <!-- ========== CODE-BEHIND: MODULE UPLOAD MODULE ========== -->
+    <Compile Include="Modules\UploadModule\Views\UploadModuleWindow.xaml.cs">
+      <DependentUpon>UploadModuleWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\UploadModule\Models\VaultUploadFileItem.cs" />
+    <Compile Include="Modules\UploadModule\Models\VaultUploadModels.cs" />
+    <!-- ========== CODE-BEHIND: MODULE CREATE MODULE ========== -->
+    <Compile Include="Modules\CreateModule\Views\CreateModuleWindow.xaml.cs">
+      <DependentUpon>CreateModuleWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\CreateModule\Views\CreateModuleSettingsWindow.xaml.cs">
+      <DependentUpon>CreateModuleSettingsWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\CreateModule\Models\CreateModuleRequest.cs" />
+    <Compile Include="Modules\CreateModule\Models\CreateModuleSettings.cs" />
+    <Compile Include="Modules\CreateModule\Services\InventorCopyDesignService.cs" />
+    <Compile Include="Modules\CreateModule\Services\ModuleCopyService.cs" />
+    <Compile Include="Modules\CreateModule\Services\PdfCoverService.cs" />
+    <!-- ========== CODE-BEHIND: MODULE UPLOAD TEMPLATE ========== -->
+    <Compile Include="Modules\UploadTemplate\Views\UploadTemplateWindow.xaml.cs">
+      <DependentUpon>UploadTemplateWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <!-- ========== CODE-BEHIND: MODULE ACP ========== -->
+    <Compile Include="Modules\ACP\Views\ACPWindow.xaml.cs">
+      <DependentUpon>ACPWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\ACP\Services\ACPExcelService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\ACP\Services\ACPSyncService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\ACP\Models\ACPDataModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <!-- ========== CODE-BEHIND: MODULE SMART TOOLS ========== -->
+    <Compile Include="Modules\SmartTools\Views\SmartToolsWindow.xaml.cs">
+      <DependentUpon>SmartToolsWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\HtmlPopupWindow.xaml.cs">
+      <DependentUpon>HtmlPopupWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\IPropertiesWindow.xaml.cs">
+      <DependentUpon>IPropertiesWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\SmartProgressWindow.xaml.cs">
+      <DependentUpon>SmartProgressWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\ConstraintReportWindow.xaml.cs">
+      <DependentUpon>ConstraintReportWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\CustomPropertyBatchWindow.xaml.cs">
+      <DependentUpon>CustomPropertyBatchWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\ProgressWindow.xaml.cs">
+      <DependentUpon>ProgressWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\ExportOptionsWindow.xaml.cs">
+      <DependentUpon>ExportOptionsWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\FolderBrowserWindow.xaml.cs">
+      <DependentUpon>FolderBrowserWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\SmartToolsInfoWindow.xaml.cs">
+      <DependentUpon>SmartToolsInfoWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Views\SheetSelectorWindow.xaml.cs">
+      <DependentUpon>SheetSelectorWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\SmartTools\Services\*.cs" />
+    <!-- ========== CODE-BEHIND: MODULE UPDATE WORKSPACE ========== -->
+    <Compile Include="Modules\UpdateWorkspace\Views\UpdateWorkspaceWindow.xaml.cs">
+      <DependentUpon>UpdateWorkspaceWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <!-- ========== CODE-BEHIND: MODULE DXF VERIFIER ========== -->
+    <Compile Include="Modules\DXFVerifier\Views\DXFVerifierWindow.xaml.cs">
+      <DependentUpon>DXFVerifierWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\DXFVerifier\Views\DXFVerifierInfoWindow.xaml.cs">
+      <DependentUpon>DXFVerifierInfoWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\DXFVerifier\Views\ProjectSelectorWindow.xaml.cs">
+      <DependentUpon>ProjectSelectorWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\DXFVerifier\Services\PdfAnalyzerService.cs" />
+    <Compile Include="Modules\DXFVerifier\Services\ExcelManagerService.cs" />
+    <Compile Include="Modules\DXFVerifier\Services\PdfFormFillerService.cs" />
+    <!-- ========== MODULE: OPEN VAULT PROJECT ========== -->
+    <Compile Include="Modules\OpenVaultProject\Views\OpenVaultProjectWindow.xaml.cs">
+      <DependentUpon>OpenVaultProjectWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\OpenVaultProject\Services\VaultDownloadService.cs" />
+    <Compile Include="Modules\OpenVaultProject\Models\VaultProjectItem.cs" />
+    <!-- ========== MODULE: CONFIG UNITE ========== -->
+    <Compile Include="Modules\ConfigUnite\Views\ConfigUniteWindow.xaml.cs">
+      <DependentUpon>ConfigUniteWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\ConfigUnite\Controls\UnitVisualizer.xaml.cs">
+      <DependentUpon>UnitVisualizer.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\ConfigUnite\Services\ConfigUniteService.cs" />
+    <Compile Include="Modules\ConfigUnite\Models\ConfigUniteDataModel.cs" />
+    <Compile Include="Modules\ConfigUnite\Data\ParameterLists.cs" />
+    <!-- ========== CORE CODE ========== -->
+    <Compile Include="ViewModels\*.cs" />
+    <Compile Include="Models\*.cs" />
+    <Compile Include="Services\*.cs" />
+    <Compile Include="Converters\*.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\XnrgyEngineeringAutomationTools.ico" />
+    <Resource Include="Resources\XnrgyEngineeringAutomationTools.png" />
+    <Resource Include="Assets\Icons\DXFVerifier.png" />
+    <Resource Include="Resources\SmartTools.png" />
+    <!-- Smart Tools Icons -->
+    <Resource Include="Assets\Icons\SmartTools\ActivationCommand16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ActivationCommand32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\AutoSave.dark.large.png" />
+    <Resource Include="Assets\Icons\SmartTools\CheckSaveStatus.dark.large.png" />
+    <Resource Include="Assets\Icons\SmartTools\CollapseExpandAll.dark.large.png" />
+    <Resource Include="Assets\Icons\SmartTools\ConstraintReport16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ConstraintReport32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ExportIAMToIPT16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ExportIAMToIPT32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ExportIDWtoShopPDF.dark.large.png" />
+    <Resource Include="Assets\Icons\SmartTools\ExportIDWtoShopPDF16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ExportIDWtoShopPDF32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\FormCenteringUtility16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\FormCenteringUtility32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\HideBox16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\HideBox32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\iLogicFormsCentred.dark.large.png" />
+    <Resource Include="Assets\Icons\SmartTools\iLogicFormsCentred16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\iLogicFormsCentred32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\InfoCommand16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\InfoCommand32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\InsertSpecificScrewInHoles.dark.large.png" />
+    <Resource Include="Assets\Icons\SmartTools\iPropertiesSummary16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\iPropertiesSummary32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\SafeClose.dark.large.png" />
+    <Resource Include="Assets\Icons\SmartTools\SafeClose16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\SafeClose32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\SmartHideBox.dark.large.png" />
+    <Resource Include="Assets\Icons\SmartTools\SmartSave.dark.large.png" />
+    <Resource Include="Assets\Icons\SmartTools\SmartSave16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\SmartSave32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\SmartToolsAmineAddin.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ToggleRefVisibility16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ToggleRefVisibility32.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ToggleSketchVisibility16.ico" />
+    <Resource Include="Assets\Icons\SmartTools\ToggleSketchVisibility32.ico" />
+    <!-- Smart Tools Modern PNG Icons -->
+    <Resource Include="Modules\SmartTools\Resources\ActivationCommand.png" />
+    <Resource Include="Modules\SmartTools\Resources\AutoSave.png" />
+    <Resource Include="Modules\SmartTools\Resources\CheckSaveStatus.png" />
+    <Resource Include="Modules\SmartTools\Resources\CollapseExpandAll.png" />
+    <Resource Include="Modules\SmartTools\Resources\ConstraintReport.png" />
+    <Resource Include="Modules\SmartTools\Resources\DeleteSelectedComponentAndFile.png" />
+    <Resource Include="Modules\SmartTools\Resources\ExportIAMToIPT.png" />
+    <Resource Include="Modules\SmartTools\Resources\ExportIDWtoShopPDF.png" />
+    <Resource Include="Modules\SmartTools\Resources\FormCenteringUtility.png" />
+    <Resource Include="Modules\SmartTools\Resources\HideBox.png" />
+    <Resource Include="Modules\SmartTools\Resources\iLogicFormsCentred.png" />
+    <Resource Include="Modules\SmartTools\Resources\InfoCommand.png" />
+    <Resource Include="Modules\SmartTools\Resources\InsertSpecificScrewInHoles.png" />
+    <Resource Include="Modules\SmartTools\Resources\iPropertiesSummary.png" />
+    <Resource Include="Modules\SmartTools\Resources\RenameSelectedComponentAndFile.png" />
+    <Resource Include="Modules\SmartTools\Resources\SafeClose.png" />
+    <Resource Include="Modules\SmartTools\Resources\SmartSave.png" />
+    <Resource Include="Modules\SmartTools\Resources\ToggleRefVisibility.png" />
+    <Resource Include="Modules\SmartTools\Resources\ToggleSketchVisibility.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <!-- Firebase Service Account Key - SECURISE -->
+    <Content Include="Firebase Realtime Database configuration\serviceAccountKey.json">
+      <Link>serviceAccountKey.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(ProgramW6432)\Autodesk\Autodesk Vault 2026 SDK\bin\x64\AdskLicensingSDK_9.dll">
+      <Link>AdskLicensingSDK_9.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(ProgramW6432)\Autodesk\Autodesk Vault 2026 SDK\bin\x64\AdskIdentitySDK.dll">
+      <Link>AdskIdentitySDK.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(ProgramW6432)\Autodesk\Autodesk Vault 2026 SDK\bin\x64\AdskIdentitySDK.config">
+      <Link>AdskIdentitySDK.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <!-- ACP HTML -->
+    <Content Include="Modules\ACP\Resources\ACP - Assistant de Conception de Projet.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

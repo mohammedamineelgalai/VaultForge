@@ -1,0 +1,72 @@
+# VaultForge - Commercial Software License Agreement
+
+Copyright (c) 2026 Mohammed Amine Elgalai. All rights reserved.
+
+## Terms and Conditions
+
+### 1. Grant of License
+
+This End User License Agreement ("EULA") is a legal agreement between you ("Licensee") and Mohammed Amine Elgalai ("Licensor") for the use of VaultForge software ("Software").
+
+Subject to the terms of this agreement and upon payment of applicable license fees, Licensor grants Licensee a non-exclusive, non-transferable license to use the Software.
+
+### 2. License Types
+
+**2.1 Subscription License**
+- Valid for the subscription period only (monthly or annual)
+- Includes software updates during subscription
+- Includes technical support per plan
+- Automatically renews unless cancelled
+
+**2.2 Perpetual License**
+- One-time purchase, use indefinitely
+- Includes 1 year of updates and support
+- Annual maintenance optional after first year
+
+### 3. Restrictions
+
+Licensee shall NOT:
+- Copy, modify, or distribute the Software
+- Reverse engineer, decompile, or disassemble the Software
+- Rent, lease, or lend the Software to third parties
+- Remove or alter any proprietary notices
+- Use the Software for illegal purposes
+- Share license keys with unauthorized users
+
+### 4. Intellectual Property
+
+The Software is protected by copyright laws. All rights, title, and interest in the Software remain with Licensor.
+
+### 5. Support and Updates
+
+- **Starter Plan**: Email support, business hours
+- **Professional Plan**: Priority email support, 24h response
+- **Enterprise Plan**: 24/7 support, dedicated account manager
+
+### 6. Warranty Disclaimer
+
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. LICENSOR DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+### 7. Limitation of Liability
+
+IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF THE SOFTWARE.
+
+### 8. Termination
+
+This license is effective until terminated. Licensor may terminate this license if Licensee fails to comply with any term. Upon termination, Licensee must destroy all copies of the Software.
+
+### 9. Governing Law
+
+This agreement shall be governed by the laws of Quebec, Canada.
+
+### 10. Contact
+
+For licensing inquiries:
+- Email: licensing@vaultforge.app
+- Web: https://vaultforge.app/licensing
+
+---
+
+By installing or using VaultForge, you acknowledge that you have read this agreement and agree to be bound by its terms.
+
+Version 1.0 - February 2026

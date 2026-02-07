@@ -1,0 +1,374 @@
+﻿<Window x:Class="XnrgyEngineeringAutomationTools.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource WindowTitleMain}" 
+        Height="850" Width="1300"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        x:Name="MainWindowRoot"
+        Background="#1E1E2E"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="XnrgyBlue" Color="#0078D4"/>
+        <SolidColorBrush x:Key="XnrgyGreen" Color="#107C10"/>
+        <SolidColorBrush x:Key="XnrgyRed" Color="#E81123"/>
+        <SolidColorBrush x:Key="XnrgyOrange" Color="#FF8C00"/>
+        <SolidColorBrush x:Key="ButtonBg" Color="#252536"/>
+        <SolidColorBrush x:Key="ButtonHover" Color="#3D3D56"/>
+        <SolidColorBrush x:Key="LogBg" Color="#12121C"/>
+        <SolidColorBrush x:Key="TextLight" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#888888"/>
+        
+        <!-- ModuleButton - Glow Brillant -->
+        <Style x:Key="ModuleButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource ButtonBg}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                BorderBrush="#4A7FBF" 
+                                BorderThickness="2"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2A5A8F"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#00D4FF"/>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#00D4FF" BlurRadius="28" ShadowDepth="0" Opacity="0.85"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource XnrgyBlue}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- ActionButton - Glow Brillant -->
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource XnrgyBlue}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="6" 
+                                BorderBrush="#4A7FBF"
+                                BorderThickness="2"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1E90FF"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#00D4FF"/>
+                                <Setter TargetName="border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#00D4FF" BlurRadius="30" ShadowDepth="0" Opacity="0.9"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header BLEU MARINE avec connexion -->
+        <Border x:Name="ConnectionBorder" Grid.Row="0" Background="#2A4A6F" Padding="15" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Status Vault et Inventor (vertical: Vault en haut, Inventor en bas) -->
+                <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+                    <Border x:Name="VaultStatusBorder" Background="#1A1A28" CornerRadius="6" Padding="12,8" Margin="0,0,0,8" BorderBrush="#4A7FBF" BorderThickness="2">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Ellipse x:Name="VaultIndicator" Width="11" Height="11" Fill="#E81123" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="VaultStatusText" VerticalAlignment="Center" FontSize="12">
+                                <Run Text="🗄️" Foreground="#00BFFF"/><Run x:Name="RunVaultName" Text=" Vault: --" Foreground="White"/><Run Text="  |  👤" Foreground="#FFB74D"/><Run x:Name="RunUserName" Text=" --" Foreground="White"/><Run Text="  |  📡" Foreground="#90EE90"/><Run x:Name="RunStatus" Text=" Deconnecte" Foreground="White"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <Border x:Name="InventorStatusBorder" Background="#1A1A28" CornerRadius="6" Padding="12,8" BorderBrush="#4A7FBF" BorderThickness="2">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Ellipse x:Name="InventorIndicator" Width="11" Height="11" Fill="#E81123" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="InventorLabel" Text="Inventor: " Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center" FontSize="12"/>
+                            <TextBlock x:Name="InventorStatusText" Text="Deconnecte" Foreground="White" VerticalAlignment="Center" FontSize="12"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Titre avec Logo -->
+                <Viewbox Grid.Column="1" Stretch="Uniform" MaxWidth="800" MaxHeight="80" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/Resources/XnrgyEngineeringAutomationTools.png" Width="64" Height="64" Margin="0,0,15,0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="TitleText" Text="{StaticResource MainTitleWithVersion}" 
+                                       FontSize="22" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock FontSize="14" Foreground="#FFB74D" Margin="0,3,0,0" FontWeight="SemiBold">
+                                <Run Text="💡 Suite d'outils d'automatisation pour Vault et Inventor"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Viewbox>
+
+                <!-- Boutons connexion -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="ThemeToggleButton" Content="☀️ Theme Clair" 
+                            Style="{StaticResource ActionButton}" 
+                            Background="#1E1E2E"
+                            Click="ThemeToggleButton_Click"/>
+                    <Button x:Name="ConnectButton" Content="🔐 Connecter" 
+                            Style="{StaticResource ActionButton}"
+                            Background="#E81123"
+                            Click="ConnectButton_Click"/>
+                    <Button x:Name="UpdateButton" Content="🔄 Update Workspace" 
+                            Style="{StaticResource ActionButton}" 
+                            Background="#7C3AED"
+                            Click="UpdateWorkspace_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Module Buttons avec GroupBox -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="15,5">
+            <StackPanel>
+                <!-- GroupBox: Vault & Inventor -->
+                <GroupBox x:Name="GroupBox1" Style="{StaticResource XnrgyGroupBox}" Margin="0,0,0,12">
+                    <GroupBox.Header>
+                        <TextBlock x:Name="GroupBox1Header" Text="🔧 Vault &amp; Inventor Tools" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                    </GroupBox.Header>
+                    <WrapPanel>
+                        <!-- Ouvrir Projet (Vault / Local) - LE PLUS UTILISE -->
+                        <Button x:Name="BtnOpenVaultProject" Style="{StaticResource ModuleButton}" Click="OpenVaultProject_Click" Width="260" Height="210" Margin="10">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#0EA5E9" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <TextBlock Text="📥" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="BtnOpenVaultProjectTitle" Text="Ouvrir Projet" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnOpenVaultProjectDesc" Text="Vault ou Local - Module" FontSize="11" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Config Unités (Master Configuration) - Workflow complet -->
+                        <Button x:Name="BtnConfigUnits" Style="{StaticResource ModuleButton}" Click="OpenConfigUnits_Click" Width="260" Height="210" Margin="10">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#6366F1" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <TextBlock Text="⚙️" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="BtnConfigUnitsTitle" Text="Config Unites" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnConfigUnitsDesc" Text="Configuration Master Unite" FontSize="11" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Créer Module & Équipement (anciennement Pack & Go) -->
+                        <Button x:Name="BtnPackAndGo" Style="{StaticResource ModuleButton}" Click="OpenPackAndGo_Click" Width="260" Height="210" Margin="10">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#FF8C00" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <TextBlock Text="&#x1F4E6;" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="BtnPackAndGoTitle" Text="Creer Module" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnPackAndGoDesc" Text="Pack &amp; Go / Copy Design" FontSize="11" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Place Equipment - MASQUÉ: Module non disponible dans VaultForge -->
+                        <Button x:Name="BtnPlaceEquipment" Style="{StaticResource ModuleButton}" Click="OpenPlaceEquipment_Click" Width="260" Height="210" Margin="10" Visibility="Collapsed">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#5B5FC7" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="🧊" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="💨" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="🌀" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="❄️" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                                <TextBlock x:Name="BtnPlaceEquipmentTitle" Text="Place Equipment" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnPlaceEquipmentDesc" Text="Placer équipement dans module" FontSize="11" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Build Module - MASQUÉ: Module non disponible dans VaultForge -->
+                        <Button x:Name="BtnBuildModule" Style="{StaticResource ModuleButton}" Click="OpenBuildModule_Click" Width="260" Height="210" Margin="10" Visibility="Collapsed">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#00695C" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <TextBlock Text="&#x1F3D7;" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="BtnBuildModuleTitle" Text="Build Module" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnBuildModuleDesc" Text="Construction" FontSize="11" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Smart Tools -->
+                        <Button x:Name="BtnSmartTools" Style="{StaticResource ModuleButton}" Click="OpenSmartTools_Click" Width="260" Height="210" Margin="10">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Image Source="Resources/SmartTools.png" Width="95" Height="95" Margin="0,0,0,15" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock x:Name="BtnSmartToolsTitle" Text="Smart Tools" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnSmartToolsDesc" Text="Outils Inventor" FontSize="11" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Upload Module -->
+                        <Button x:Name="BtnVaultUpload" Style="{StaticResource ModuleButton}" Click="OpenVaultUpload_Click" Width="260" Height="210" Margin="10">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#AEEA00" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <TextBlock Text="&#x1F4E4;" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="BtnVaultUploadTitle" Text="Upload Module" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnVaultUploadDesc" Text="Upload vers Vault" FontSize="11" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Upload Template (Admin Only) -->
+                        <Button x:Name="BtnUploadTemplate" Style="{StaticResource ModuleButton}" Click="OpenUploadTemplate_Click" Width="260" Height="210" Margin="10">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#9B59B6" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <TextBlock Text="&#x1F4E4;" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="BtnUploadTemplateTitle" Text="Upload Template" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnUploadTemplateDesc" Text="Admin - Templates Vault" FontSize="11" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- Nesting Module - MASQUÉ: Module non disponible dans VaultForge -->
+                        <Button x:Name="BtnNesting" Style="{StaticResource ModuleButton}" Click="OpenNesting_Click" Width="260" Height="210" Margin="10" Visibility="Collapsed">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#F59E0B" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <TextBlock Text="&#x1F4A5;" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="BtnNestingTitle" Text="Nesting" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnNestingDesc" Text="Fichiers Nesting - Production" FontSize="11" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </WrapPanel>
+                </GroupBox>
+                
+                <!-- GroupBox: Verification & Quality -->
+                <GroupBox x:Name="GroupBox2" Style="{StaticResource XnrgyGroupBox}" Margin="0,0,0,12">
+                    <GroupBox.Header>
+                        <TextBlock x:Name="GroupBox2Header" Text="✅ Verification &amp; Quality" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                    </GroupBox.Header>
+                    <WrapPanel>
+                        <!-- Checklist HVAC - MASQUÉ: Module non disponible dans VaultForge -->
+                        <Button x:Name="BtnChecklistHVAC" Style="{StaticResource ModuleButton}" Click="OpenChecklistHVAC_Click" Width="260" Height="210" Margin="10" Visibility="Collapsed">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#107C10" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <TextBlock Text="&#x1F4DD;" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="BtnChecklistHVACTitle" Text="Checklist HVAC" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnChecklistHVACDesc" Text="Verification Qualite AHU" FontSize="11" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- ACP - Assistant de Conception de Projet -->
+                        <Button x:Name="BtnACP" Style="{StaticResource ModuleButton}" Click="OpenACP_Click" Width="260" Height="210" Margin="10">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Border Background="#2A4A6F" CornerRadius="14" Width="95" Height="95" Margin="0,0,0,15">
+                                    <TextBlock Text="&#x1F4CB;" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock x:Name="BtnACPTitle" Text="ACP" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnACPDesc" Text="Points Critiques Modules" FontSize="11" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <!-- DXF/CSV vs PDF Verifier -->
+                        <Button x:Name="BtnDXFVerifier" Style="{StaticResource ModuleButton}" Click="OpenDXFVerifier_Click" Width="260" Height="210" Margin="10">
+                            <StackPanel HorizontalAlignment="Center">
+                                <Image Source="Assets/Icons/DXFVerifier.png" Width="95" Height="95" Margin="0,0,0,15" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock x:Name="BtnDXFVerifierTitle" Text="DXF/CSV vs PDF" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="BtnDXFVerifierDesc" Text="Verification Fichiers" FontSize="11" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </WrapPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Log Panel - Meme largeur que les GroupBox (Margin 15 horizontal) -->
+        <Border x:Name="LogBorder" Grid.Row="2" Background="#12121C" CornerRadius="8" Margin="15,10,15,0" BorderBrush="#4A7FBF" BorderThickness="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Border x:Name="LogHeaderBorder" Grid.Row="0" Style="{StaticResource JournalHeaderBorder}">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="📋" FontSize="13" Foreground="White" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <TextBlock x:Name="LogHeaderText" Text="Journal des Opérations" FontSize="12" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Button Content="🗑️ Effacer" 
+                                HorizontalAlignment="Right" 
+                                Style="{StaticResource JournalClearButton}"
+                                Click="ClearLogButton_Click"/>
+                    </Grid>
+                </Border>
+                
+                <ListBox x:Name="LogListBox" Grid.Row="1" 
+                         Background="Transparent" 
+                         BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Focusable" Value="False"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <!-- Status Bar - Utilise styles centralises de XnrgyStyles.xaml -->
+        <Border x:Name="StatusBorder" Grid.Row="3" Style="{DynamicResource CopyrightBarBorder}" Margin="0,10,0,0">
+            <Grid>
+                <TextBlock x:Name="StatusText" Text="Pret" Style="{StaticResource StatusTextStyle}"/>
+                <TextBlock x:Name="CopyrightText" Style="{DynamicResource CopyrightTextStyle}" HorizontalAlignment="Right"
+                           Text="{DynamicResource CopyrightMain}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
+
+

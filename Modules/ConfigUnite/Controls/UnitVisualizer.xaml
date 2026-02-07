@@ -1,0 +1,176 @@
+<UserControl x:Class="XnrgyEngineeringAutomationTools.Modules.ConfigUnite.Controls.UnitVisualizer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="800"
+             Background="#1E1E2E">
+    
+    <UserControl.Resources>
+        <!-- Style pour les onglets TOP/BOTTOM -->
+        <Style x:Key="ViewTabItem" TargetType="TabItem">
+            <Setter Property="Background" Value="#252536"/>
+            <Setter Property="Foreground" Value="#888888"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="Border" Background="{TemplateBinding Background}" 
+                                BorderBrush="#333355" BorderThickness="1,1,1,0" CornerRadius="4,4,0,0"
+                                Padding="{TemplateBinding Padding}" Margin="2,0,0,0">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#0078D4"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#3D3D56"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Zone de dessin principale avec onglets TOP/BOTTOM -->
+        <Border Grid.Row="0" Background="#1A1A2E" BorderBrush="#333355" BorderThickness="1" Margin="5">
+            <Grid>
+                <!-- Label vue + Zoom info en haut -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,5,0,0">
+                    <TextBlock Text="PLAN VIEW" Foreground="#555555" FontSize="9" FontWeight="Bold"/>
+                    <TextBlock Text=" | Ctrl+Scroll: Zoom | Double-click: Reset" Foreground="#444444" FontSize="8" VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <!-- Indicateur de zoom -->
+                <Border x:Name="ZoomIndicator" Background="#1A3A4A" CornerRadius="3" Padding="6,2"
+                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,8,0">
+                    <TextBlock x:Name="TxtZoomLevel" Text="100%" Foreground="#64B5F6" FontSize="9" FontWeight="SemiBold"/>
+                </Border>
+                
+                <!-- Message quand aucun module -->
+                <StackPanel x:Name="PanelNoModules" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="Aucun module defini" Foreground="#555555" FontSize="14" 
+                               HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                    <TextBlock Text="Cliquez '+ Ajouter Module' puis 'Appliquer'" 
+                               Foreground="#444444" FontSize="11" HorizontalAlignment="Center"/>
+                </StackPanel>
+                
+                <!-- TabControl pour TOP/BOTTOM (visible si Stacked) -->
+                <TabControl x:Name="TabViews" Visibility="Collapsed" Background="Transparent" 
+                            BorderThickness="0" Margin="5,25,5,5">
+                    
+                    <!-- Onglet TOP -->
+                    <TabItem x:Name="TabTop" Header="TOP UNIT" Style="{StaticResource ViewTabItem}">
+                        <Border Background="#1A1A2E" BorderBrush="#333355" BorderThickness="1">
+                            <ScrollViewer x:Name="ScrollTop" HorizontalScrollBarVisibility="Auto" 
+                                          VerticalScrollBarVisibility="Auto" 
+                                          PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+                                          MouseDoubleClick="ScrollViewer_MouseDoubleClick">
+                                <Canvas x:Name="CanvasTop" Background="Transparent" ClipToBounds="False"
+                                        RenderTransformOrigin="0.5,0.5">
+                                    <Canvas.RenderTransform>
+                                        <ScaleTransform x:Name="ScaleTop" ScaleX="1" ScaleY="1"/>
+                                    </Canvas.RenderTransform>
+                                </Canvas>
+                            </ScrollViewer>
+                        </Border>
+                    </TabItem>
+                    
+                    <!-- Onglet BOTTOM -->
+                    <TabItem x:Name="TabBottom" Header="BOTTOM UNIT" Style="{StaticResource ViewTabItem}">
+                        <Border Background="#1A1A2E" BorderBrush="#333355" BorderThickness="1">
+                            <ScrollViewer x:Name="ScrollBottom" HorizontalScrollBarVisibility="Auto" 
+                                          VerticalScrollBarVisibility="Auto"
+                                          PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+                                          MouseDoubleClick="ScrollViewer_MouseDoubleClick">
+                                <Canvas x:Name="CanvasBottom" Background="Transparent" ClipToBounds="False"
+                                        RenderTransformOrigin="0.5,0.5">
+                                    <Canvas.RenderTransform>
+                                        <ScaleTransform x:Name="ScaleBottom" ScaleX="1" ScaleY="1"/>
+                                    </Canvas.RenderTransform>
+                                </Canvas>
+                            </ScrollViewer>
+                        </Border>
+                    </TabItem>
+                </TabControl>
+                
+                <!-- Vue unique (quand pas Stacked) avec zoom -->
+                <Border x:Name="SingleViewBorder" Margin="5,25,5,5">
+                    <ScrollViewer x:Name="ScrollSingle" HorizontalScrollBarVisibility="Auto" 
+                                  VerticalScrollBarVisibility="Auto"
+                                  PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+                                  MouseDoubleClick="ScrollViewer_MouseDoubleClick">
+                        <Canvas x:Name="CanvasModules" Background="Transparent" ClipToBounds="False"
+                                RenderTransformOrigin="0.5,0.5">
+                            <Canvas.RenderTransform>
+                                <ScaleTransform x:Name="ScaleSingle" ScaleX="1" ScaleY="1"/>
+                            </Canvas.RenderTransform>
+                        </Canvas>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Border>
+        
+        <!-- Footer avec légende des couleurs + compteur modules + dimensions -->
+        <Border Grid.Row="1" Background="#252536" Padding="8,4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Légende couleurs (gauche) -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Rectangle Width="12" Height="12" Fill="#4A7FBF" RadiusX="2" RadiusY="2" Margin="0,0,4,0"/>
+                    <TextBlock Text="Module" Foreground="#AAAAAA" FontSize="10" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    
+                    <Rectangle Width="12" Height="12" Fill="#6C5CE7" RadiusX="2" RadiusY="2" Margin="0,0,4,0"/>
+                    <TextBlock Text="Tunnel" Foreground="#AAAAAA" FontSize="10" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    
+                    <Rectangle Width="12" Height="12" Fill="#FFA726" RadiusX="2" RadiusY="2" Margin="0,0,4,0"/>
+                    <TextBlock Text="Vestibule" Foreground="#AAAAAA" FontSize="10" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    
+                    <TextBlock Text="|" Foreground="#555555" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    
+                    <TextBlock Text="Mur:" Foreground="#666666" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                    <Rectangle Width="4" Height="12" Fill="#3D3D56" Margin="0,0,4,0"/>
+                    <TextBlock x:Name="TxtWallThickness" Text="4 in" Foreground="#888888" FontSize="10" VerticalAlignment="Center"/>
+                    
+                    <TextBlock Text="|" Foreground="#555555" VerticalAlignment="Center" Margin="12,0,12,0"/>
+                    
+                    <!-- AirFlow -->
+                    <TextBlock Text="→" Foreground="#00B894" FontSize="14" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,3,0"/>
+                    <TextBlock Text="AirFlow" Foreground="#888888" FontSize="10" VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <!-- Compteur modules (centre-droit) -->
+                <Border Grid.Column="1" Background="#2A3A4A" CornerRadius="3" Padding="8,2" Margin="15,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="📦" FontSize="11" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <TextBlock x:Name="TxtModuleCount" Text="0 module(s)" 
+                                   Foreground="#90CAF9" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Dimensions totales (droite) -->
+                <Border Grid.Column="2" Background="#1A3A2A" CornerRadius="3" Padding="8,2">
+                    <TextBlock x:Name="TxtTotalDimensions" Text="Total: 0 in" 
+                               Foreground="#00B894" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
