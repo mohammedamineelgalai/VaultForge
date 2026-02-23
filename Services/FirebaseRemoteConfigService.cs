@@ -87,8 +87,20 @@ namespace XnrgyEngineeringAutomationTools.Services
                 if (config.Commands?.Global?.KillSwitch == true)
                 {
                     result.KillSwitchActive = true;
-                    result.KillSwitchMessage = config.Commands.Global.KillSwitchMessage 
-                        ?? "Application desactivee par l'administrateur.";
+                    result.KillSwitchSubject = config.Commands.Global.KillSwitchSubject;
+                    result.KillSwitchReason = config.Commands.Global.KillSwitchReason;
+                    
+                    // Priorite: customMessage > message generique
+                    var customMsg = config.Commands.Global.KillSwitchCustomMessage;
+                    if (!string.IsNullOrEmpty(customMsg) && customMsg != "none")
+                    {
+                        result.KillSwitchMessage = customMsg;
+                    }
+                    else
+                    {
+                        result.KillSwitchMessage = config.Commands.Global.KillSwitchMessage 
+                            ?? "Application desactivee par l'administrateur.";
+                    }
                     Logger.Log("[-] Kill Switch actif: " + result.KillSwitchMessage, Logger.LogLevel.ERROR);
                     return result;
                 }
@@ -595,6 +607,9 @@ namespace XnrgyEngineeringAutomationTools.Services
                     {
                         KillSwitch = killSwitch?.Global?.Enabled ?? false,
                         KillSwitchMessage = killSwitch?.Global?.Message ?? "Application desactivee par administrateur",
+                        KillSwitchSubject = killSwitch?.Global?.Subject,
+                        KillSwitchReason = killSwitch?.Global?.Reason,
+                        KillSwitchCustomMessage = killSwitch?.Global?.CustomMessage,
                         ForceUpdate = forceUpdate?.Enabled ?? false
                     }
                 };

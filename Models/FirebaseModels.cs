@@ -34,6 +34,9 @@ namespace XnrgyEngineeringAutomationTools.Models
     {
         public bool KillSwitch { get; set; }
         public string KillSwitchMessage { get; set; }
+        public string KillSwitchSubject { get; set; }
+        public string KillSwitchReason { get; set; }
+        public string KillSwitchCustomMessage { get; set; }
         public bool ForceUpdate { get; set; }
     }
 
@@ -67,8 +70,10 @@ namespace XnrgyEngineeringAutomationTools.Models
     public class KillSwitchGlobal
     {
         public bool Enabled { get; set; }
+        public string Subject { get; set; }
         public string Reason { get; set; }
         public string Message { get; set; }
+        public string CustomMessage { get; set; }
         public string ActivatedAt { get; set; }
         public string ActivatedBy { get; set; }
         public bool AllowAdmins { get; set; }
@@ -213,6 +218,8 @@ namespace XnrgyEngineeringAutomationTools.Models
         public bool Success { get; set; }
         public bool KillSwitchActive { get; set; }
         public string KillSwitchMessage { get; set; }
+        public string KillSwitchSubject { get; set; }
+        public string KillSwitchReason { get; set; }
         public bool MaintenanceMode { get; set; }
         public string MaintenanceMessage { get; set; }
         public bool UpdateAvailable { get; set; }
